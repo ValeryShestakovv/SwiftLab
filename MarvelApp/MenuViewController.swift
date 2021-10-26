@@ -6,16 +6,14 @@
 //
 
 import UIKit
-import PagingCollectionViewLayout
 
 class MenuViewController: UIViewController {
 
-  let cellWidth = (1 - 0.2) * UIScreen.main.bounds.width
+  private let cellWidth = (1 - 0.2) * UIScreen.main.bounds.width
   let sectionSpacing = (1 / 8) * UIScreen.main.bounds.width
   let cellSpacing = (1 / 8) * UIScreen.main.bounds.width
   let cellHeight = (6 / 10) * UIScreen.main.bounds.height
 
-  let menu = Menu()
   let cellId = "HeroesCell"
 
   lazy var collectionView: UICollectionView = {
@@ -54,7 +52,7 @@ class MenuViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    menu.setup()
+    Hero.setup()
     design()
     registerCollectionViewCells()
     applyConstraints()
@@ -67,7 +65,7 @@ class MenuViewController: UIViewController {
   }
 
   private func registerCollectionViewCells() {
-    self.collectionView.register(UINib(nibName: "HeroesCell", bundle: nil), forCellWithReuseIdentifier: "HeroesCell")
+    self.collectionView.register(HeroesCell.self, forCellWithReuseIdentifier: self.cellId)
   }
 
   private func applyConstraints() {
@@ -95,14 +93,14 @@ class MenuViewController: UIViewController {
 extension MenuViewController: UICollectionViewDataSource {
 
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return menu.heroes.count
+    return Hero.heroes.count
   }
 
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! HeroesCell
-    cell.heroImage.image = menu.heroes[indexPath.item].image
+    cell.heroImage.image = Hero.heroes[indexPath.item].image
     cell.heroImage.backgroundColor = .white
-    cell.nameLabel.text = menu.heroes[indexPath.item].name
+    cell.nameLabel.text = Hero.heroes[indexPath.item].name
     return cell
   }
 }
